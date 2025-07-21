@@ -44,7 +44,7 @@ class QuantizationLoRABaseLinear(nn.Layer):
         else:
             self.weight_scale = layer.weight_scale
         self.bias = layer.bias
-                self.state = 0
+        self.state = 0
         if self.weight_quantize_algo in ["a8w8linear", "a8w4linear", "fp8linear"]:
             self.act_scale = self.create_parameter(
                 shape=[1],
