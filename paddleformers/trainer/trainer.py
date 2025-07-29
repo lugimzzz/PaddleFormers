@@ -89,7 +89,7 @@ from ..quantization.quantization_linear import (
     QuantizationLinear,
     RowParallelQuantizationLinear,
 )
-
+from ..peft.lora import QuantizationLoRABaseLinear
 try:
     from paddle.distributed.fleet.utils.sequence_parallel_utils import (
         register_sequence_parallel_allreduce_hooks,
@@ -521,7 +521,7 @@ class Trainer:
                 models=model,
                 level=self.args.fp16_opt_level,
                 dtype=self.amp_dtype,
-                excluded_layers=[QuantizationLinear, ColumnParallelQuantizationLinear, RowParallelQuantizationLinear]
+                excluded_layers=[QuantizationLinear, ColumnParallelQuantizationLinear, RowParallelQuantizationLinear, QuantizationLoRABaseLinear]
                 + self._decorate_exclude_layers(model),
             )
         # for pipeline mode and pure tensor parallel
@@ -2191,7 +2191,7 @@ class Trainer:
                 optimizers=self.optimizer,
                 level=self.args.fp16_opt_level,
                 dtype=self.amp_dtype,
-                excluded_layers=[QuantizationLinear, ColumnParallelQuantizationLinear, RowParallelQuantizationLinear]
+                excluded_layers=[QuantizationLinear, ColumnParallelQuantizationLinear, RowParallelQuantizationLinear, QuantizationLoRABaseLinear]
                 + self._decorate_exclude_layers(model),
             )
 
