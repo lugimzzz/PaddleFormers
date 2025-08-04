@@ -818,7 +818,6 @@ class ChatTemplateMixin:
 
         return conversation_ids
 
-
     def _encode_chat_inputs(
         self,
         conversations: List[List[str, str]],
