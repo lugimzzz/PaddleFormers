@@ -23,7 +23,7 @@ from paddle.distributed.fleet.utils.sequence_parallel_utils import (
     mark_as_sequence_parallel_parameter,
 )
 
-from ...quantization.quantization_linear import quant_weight_linear, get_act_scale_group
+from ...quantization.quantization_linear import quant_weight_linear
 from ...utils.log import logger
 from .utils import rng_ctx
 
