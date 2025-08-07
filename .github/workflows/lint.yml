@@ -11,7 +11,7 @@ env:
   COMMIT_ID: ${{ github.event.pull_request.head.sha }}
   BRANCH: ${{ github.event.pull_request.base.ref }}
   TASK: PaddleFormers-CI-Lint-${{ github.event.pull_request.number }}
-  
+
 jobs:
   Lint:
     name: Lint
@@ -47,8 +47,8 @@ jobs:
         run: |
           docker exec -t ${container_name} /bin/bash -c '
           # 设置统一代理
-          export http_proxy=http://your-proxy:port
-          export https_proxy=http://your-proxy:port
+          export http_proxy=http://agent.baidu.com:8188
+          export https_proxy=http://agent.baidu.com:8188
           export no_proxy=localhost,127.0.0.1,.baidu.com
           
           # 安全下载代码
