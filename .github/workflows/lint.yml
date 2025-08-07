@@ -1,7 +1,20 @@
+name: Codestyle Check
+
+on: [push, pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  PR_ID: ${{ github.event.pull_request.number }}
+  COMMIT_ID: ${{ github.event.pull_request.head.sha }}
+  BRANCH: ${{ github.event.pull_request.base.ref }}
+  TASK: PaddleFormers-CI-Lint-${{ github.event.pull_request.number }}
+  
 jobs:
   Lint:
     name: Lint
-    on: [pull_request, push]
     runs-on: [self-hosted, ernie-cpu]
     steps:
       - name: Setup Node.js
