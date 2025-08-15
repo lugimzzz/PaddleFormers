@@ -158,6 +158,7 @@ from .trainer_utils import (  # set_hyrbid_parallel_seed,
     ShardingOption,
     TrainerMemoryTracker,
     TrainOutput,
+    _insert_sync,
     download_recovery_ckpt_from_pdc,
     find_batch_size,
     get_last_checkpoint,
@@ -2412,6 +2413,9 @@ class Trainer:
                     and "enable_stage1_broadcast_overlap" in self.args.sharding_parallel_config
                 ):
                     self.optimizer._set_broadcast_overlap(True, model)
+
+        # To solve DPO pin-memory problem, temporarily modify the _insert_sync method.
+        self.optimizer._insert_sync = types.MethodType(_insert_sync, self.optimizer)
 
         return model
 
