@@ -11,22 +11,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Package"""
+
 import sys
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 from ...utils.lazy_import import _LazyModule
 
 import_structure = {
-    "tokenizer": ["copyfile", "Ernie4_5Tokenizer"],
-    "tokenizer_utils": ["PretrainedTokenizer"],
-    "configuration": ["Ernie4_5Config"],
-    "modeling": ["Ernie4_5Model", "Ernie4_5ForCausalLM"],
+    "eager_attention": ["eager_attention_forward"],
+    "flashmask_attention": ["flashmask_attention_forward"],
+    "interface": ["AttentionInterface", "ALL_ATTENTION_FUNCTIONS"],
+    "sdpa_attention": ["sdpa_attention_forward"],
+    "utils": ["repeat_kv"],
 }
 
 if TYPE_CHECKING:
-    from .configuration import *
-    from .modeling import *
+    from .eager_attention import *
+    from .flashmask_attention import *
+    from .interface import *
+    from .sdpa_attention import *
+    from .utils import *
 else:
     sys.modules[__name__] = _LazyModule(
         __name__,

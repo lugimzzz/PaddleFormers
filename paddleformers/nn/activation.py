@@ -11,26 +11,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Package"""
-import sys
-from typing import TYPE_CHECKING
 
-from ...utils.lazy_import import _LazyModule
+from collections import OrderedDict
 
-import_structure = {
-    "tokenizer": ["copyfile", "Ernie4_5Tokenizer"],
-    "tokenizer_utils": ["PretrainedTokenizer"],
-    "configuration": ["Ernie4_5Config"],
-    "modeling": ["Ernie4_5Model", "Ernie4_5ForCausalLM"],
+import paddle.nn as nn
+
+
+class ClassInstantier(OrderedDict):
+    def __getitem__(self, key):
+        content = super().__getitem__(key)
+        cls, kwargs = content if isinstance(content, tuple) else (content, {})
+        return cls(**kwargs)
+
+
+ACT2CLS = {
+    "relu": nn.ReLU,
+    "relu6": nn.ReLU6,
+    "sigmoid": nn.Sigmoid,
+    "silu": nn.Silu,
+    "tanh": nn.Tanh,
+    "prelu": nn.PReLU,
 }
 
-if TYPE_CHECKING:
-    from .configuration import *
-    from .modeling import *
-else:
-    sys.modules[__name__] = _LazyModule(
-        __name__,
-        globals()["__file__"],
-        import_structure,
-        module_spec=__spec__,
-    )
+ACT2FN = ClassInstantier(ACT2CLS)

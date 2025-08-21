@@ -11,22 +11,32 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Package"""
+
+
 import sys
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 from ...utils.lazy_import import _LazyModule
 
 import_structure = {
-    "tokenizer": ["copyfile", "Ernie4_5Tokenizer"],
-    "tokenizer_utils": ["PretrainedTokenizer"],
-    "configuration": ["Ernie4_5Config"],
-    "modeling": ["Ernie4_5Model", "Ernie4_5ForCausalLM"],
+    "dpo_loss": ["dpo_preprocess_inputs", "dpo_logps", "cal_dpo_loss", "dpo_loss_forward"],
+    "interface": ["LossInterface", "ALL_LOSS_FUNCTIONS", "CriterionLayer"],
+    "kto_loss": ["kto_preprocess_inputs", "_nested_gather", "kto_logps", "kto_loss", "kto_loss_forward"],
+    "loss_utils": ["calc_lm_head_logits", "subbatch"],
+    "sft_loss": [
+        "sft_preprocess_inputs",
+        "sft_postprocess_loss",
+        "sft_loss_forward",
+    ],
 }
 
 if TYPE_CHECKING:
-    from .configuration import *
-    from .modeling import *
+    from .dpo_loss import *
+    from .interface import *
+    from .kto_loss import *
+    from .loss_utils import *
+    from .sft_loss import *
 else:
     sys.modules[__name__] = _LazyModule(
         __name__,
