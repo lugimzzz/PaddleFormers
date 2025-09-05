@@ -171,6 +171,8 @@ import_structure = {
     "ernie4_5.configuration": ["Ernie4_5Config"],
     "ernie4_5.modeling": ["Ernie4_5Model", "Ernie4_5ForCausalLM"],
     "ernie4_5.tokenizer": ["Ernie4_5Tokenizer"],
+    "ernie4_5_moe.configuration": ["Ernie4_5_MoeConfig"],
+    "ernie4_5_moe.modeling": ["Ernie4_5_MoeModel", "Ernie4_5_MoeForCausalLM"],
     "export": ["export_model"],
     "llama.configuration": [
         "LLAMA_PRETRAINED_INIT_CONFIGURATION",
@@ -331,7 +333,8 @@ import_structure = {
     "qwen": [],
     "deepseek_v2": [],
     "deepseek_v3": [],
-    "ernie4_5": [],
+    "ernie4_5": ["Ernie4_5DecoderLayer", "Ernie4_5Model", "Ernie4_5_ForCausalLM"],
+    "ernie4_5_moe": ["Ernie4_5_MoeDecoderLayer", "Ernie4_5_MoeModel", "Ernie4_5_MoeForCausalLM"],
     "qwen2_moe": [],
     "qwen3_moe": [],
     "auto": ["AutoModelForCausalLM"],
@@ -389,6 +392,7 @@ if TYPE_CHECKING:
     from .deepseek_v2 import *
     from .deepseek_v3 import *
     from .ernie4_5 import *
+    from .ernie4_5_moe import *
     from .llama import *
     from .optimization import *
     from .qwen import *
