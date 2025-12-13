@@ -415,6 +415,21 @@ class TrainingArguments:
             Defaults to False.
         save_hf_steps (`int`, *optional*, defaults to -1):
             Number of updates steps before two huggingface checkpoint saves if `save_strategy="steps"`.
+
+        load_from_hf (bool, optional):
+            Whether to load a checkpoint in the HuggingFace format.
+            Defaults to False.
+
+        flex_ckpt_comm_method (str, optional):
+            Communication method used for checkpoint resharding.
+            Choices are "send_recv", "broadcast", "multi_group_broadcast", and "grouped_send_recv".
+            Defaults to "broadcast".
+
+        replicate_saved_into_local (bool, optional):
+            Whether to save checkpoint replicas into local files in a distributed save/load system.
+            If set to True, replicas will be stored locally on each node/machine.
+            Defaults to False.
+
     """
 
     output_dir: str = field(
@@ -1189,6 +1204,27 @@ class TrainingArguments:
     )
 
     save_hf_steps: int = field(default=-1, metadata={"help": "Save huggingface checkpoint every X updates steps."})
+
+    load_from_hf: Optional[bool] = field(
+        default=False,
+        metadata={"help": "Whether to load a checkpoint in the HuggingFace format."},
+    )
+
+    flex_ckpt_comm_method: Optional[str] = field(
+        default="broadcast",
+        metadata={
+            "help": (
+                "Communication method used by FlexCheckpoint for checkpoint resharding. "
+                'Choices are "send_recv", "broadcast", "multi_group_broadcast", and "grouped_send_recv". '
+                'Default is "broadcast".'
+            )
+        },
+    )
+
+    replicate_saved_into_local: Optional[bool] = field(
+        default=False,
+        metadata={"help": "Whether to save replicas cross files in distributed save load system."},
+    )
 
     def __post_init__(self):
         world_size = paddle.distributed.get_world_size()
@@ -2595,7 +2631,7 @@ class TrainingArguments:
         return (
             ShardingOption.SHARD_OP in self.sharding
             and self.sharding_parallel_degree > 1
-            and self.save_checkpoint_format == "sharding_io"
+            and (self.save_checkpoint_format == "sharding_io" or self.save_checkpoint_format == "flex_checkpoint")
         )
 
     @property
