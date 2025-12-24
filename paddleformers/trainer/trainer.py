@@ -847,6 +847,7 @@ class Trainer:
             use_expert_parallel=self.args.use_expert_parallel,
             ema_coef=self.args.zcc_save_ema_coef,
             zcc_worker_class=zcc_worker_class,
+            save_hf_steps=self.args.save_hf_steps,
         )
 
     def _register_pipeline_hooks(self, unwrapped_model):
