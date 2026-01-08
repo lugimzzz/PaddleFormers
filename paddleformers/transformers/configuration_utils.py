@@ -798,7 +798,6 @@ class PretrainedConfig:
         kwargs.pop("transformers_version", None)
         llm_meta = LlmMetaConfig._get_defaults()
         self._unsavable_keys.update(LlmMetaConfig._get_unsavable_keys())
-        self._unsavable_keys.remove("tensor_model_parallel_size")
         self._unsavable_keys.remove("fuse_attention_qkv")
         self._unsavable_keys.remove("fuse_attention_ffn")
         self._unsavable_keys.add("_attn_implementation")

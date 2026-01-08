@@ -109,7 +109,7 @@ class ConfigurationUtilsTest(unittest.TestCase):
             loaded_config = json.load(open(os.path.join(tp, "config.json"), "r"))
             assert "fuse_attention_qkv" in loaded_config, "fuse qkv is need to save"
             assert "fuse_rms_norm" not in loaded_config, "fuse_rms_norm don't need to save"
-            assert "tensor_model_parallel_size" in loaded_config, "tensor_model_parallel_size need to save"
+            assert "tensor_model_parallel_size" not in loaded_config, "tensor_model_parallel_size no need to save"
             assert "paddleformers_version" in loaded_config, "always save paddleformers_version"
             assert (
                 "quantization_config" in loaded_config and "quant_type" in loaded_config["quantization_config"]
